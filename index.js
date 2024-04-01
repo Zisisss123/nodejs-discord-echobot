@@ -25,9 +25,12 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     const givenTo = newMember;
     const roleName = role.name;
 
-    console.log(`1: ${givenTo} was given the role`);
-    console.log(`2: ${addedBy} added the role to ${givenTo}`);
-    console.log(`3: ${roleName}`);
+    // Get a random text channel from the guild
+    const randomChannel = newMember.guild.channels.cache.filter(channel => channel.type === 'text').random();
+
+    if (randomChannel) {
+      randomChannel.send(`1: ${givenTo} was given the role\n2: ${addedBy} added the role to ${givenTo}\n3: ${roleName}`);
+    }
   });
 });
 
