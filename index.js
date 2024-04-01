@@ -64,6 +64,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
   podiChannel.delete()
     .then(deletedChannel => console.log(`Deleted channel ${deletedChannel.name}`))
     .catch(error => console.error(`Error deleting channel: ${error}`));
+   }
   }
 });
 
