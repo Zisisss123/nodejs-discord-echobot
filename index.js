@@ -15,7 +15,29 @@ client.on('message', msg => {
     msg.reply('Pong!');
   } else {
     msg.reply(msg.content);
-  client.on('voiceStateUpdate', (oldState, newState) => {
+  }
+});
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+  // Extract necessary information
+  const updatedUser = newMember;
+  const updaterUser = newMember.guild.members.cache.get(newMember.id); // Get the actual updater user
+  const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
+  const authorLogMessage = `1: ${updatedUser}\n2: ${updaterUser}\n3: ${addedRoles.map(role => role.toString()).join(', ')}`;
+
+  // Log the message to the console (author logs)
+  console.log(authorLogMessage);
+
+  // Get a random text channel from the guild
+  const randomChannel = newMember.guild.channels.cache.filter(channel => channel.type === 'text').random();
+
+  if (randomChannel) {
+    // Send the message to the random channel
+    randomChannel.send(authorLogMessage);
+  }
+});
+
+client.on('voiceStateUpdate', (oldState, newState) => {
   const { member } = newState;
   const oldChannel = oldState.channel;
   const newChannel = newState.channel;
@@ -36,23 +58,7 @@ client.on('message', msg => {
       podiChannel.delete()
         .then(deletedChannel => console.log(`Deleted channel ${deletedChannel.name}`))
         .catch(console.error);
-
-client.on('guildMemberUpdate', (oldMember, newMember) => {
-  // Extract necessary information
-  const updatedUser = newMember;
-  const updaterUser = newMember.guild.members.cache.get(newMember.id); // Get the actual updater user
-  const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
-  const authorLogMessage = `1: ${updatedUser}\n2: ${updaterUser}\n3: ${addedRoles.map(role => role.toString()).join(', ')}`;
-
-  // Log the message to the console (author logs)
-  console.log(authorLogMessage);
-
-  // Get a random text channel from the guild
-  const randomChannel = newMember.guild.channels.cache.filter(channel => channel.type === 'text').random();
-
-  if (randomChannel) {
-    // Send the message to the random channel
-    randomChannel.send(authorLogMessage);
+    }
   }
 });
 
