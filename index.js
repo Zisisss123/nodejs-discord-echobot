@@ -14,13 +14,22 @@ client.on('message', msg => {
   } else if (msg.content.toLowerCase() === 'ping') {
     // Respond with "Pong!" if the message is "ping"
     msg.reply('Pong!');
-  } else if (msg.content.toLowerCase() === 'shut') {
-    // Respond with "up" if the message is "shut"
-    msg.reply('up');
   } else {
-    // Echo the message content back if it's not "ping" or "shut"
+    // Echo the message content back if it's not "ping"
     msg.reply(msg.content);
   }
+});
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+  const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
+  addedRoles.forEach(role => {
+    // Send a message to the same channel
+    newMember.guild.channels.cache.forEach(channel => {
+      if (channel.type === 'text') {
+        channel.send(`1: ${newMember} got the role\n2: ${newMember.guild.members.cache.get(newMember.guild.me.id)} added the role to ${newMember}\n3: ${role}`);
+      }
+    });
+  });
 });
 
 // Log in to Discord with the bot's token
