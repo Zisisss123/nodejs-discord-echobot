@@ -58,7 +58,12 @@ client.on('voiceStateUpdate', (oldState, newState) => {
       podiChannel.delete()
         .then(deletedChannel => console.log(`Deleted channel ${deletedChannel.name}`))
         .catch(console.error);
-    }
+      
+  if (podiChannel && podiChannel.members.size === 0) {
+  // If "podi" channel has 0 users, delete it
+  podiChannel.delete()
+    .then(deletedChannel => console.log(`Deleted channel ${deletedChannel.name}`))
+    .catch(error => console.error(`Error deleting channel: ${error}`));
   }
 });
 
