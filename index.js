@@ -1,36 +1,34 @@
-const Discord = require('discord.js'); // Import the Discord.js module
-const keep_alive = require('./keep_alive.js'); // Keep the bot alive (if needed)
+const Discord = require('discord.js');
+const keep_alive = require('./keep_alive.js');
 
-const client = new Discord.Client(); // Create a new Discord client instance
+const client = new Discord.Client();
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`); // Log that the bot is ready
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
-  // Check if the message isn't from the bot itself
-  if (msg.author === client.user) {
+  if (msg.author == client.user) {
     return;
-  } else if (msg.content.toLowerCase() === 'ping') {
-    // Respond with "Pong!" if the message is "ping"
+  } else if (msg.content === 'ping') {
     msg.reply('Pong!');
   } else {
-    // Echo the message content back if it's not "ping"
     msg.reply(msg.content);
   }
 });
 
 client.on('guildMemberUpdate', (oldMember, newMember) => {
   const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
+  
   addedRoles.forEach(role => {
-    // Send a message to the same channel
-    newMember.guild.channels.cache.forEach(channel => {
-      if (channel.type === 'text') {
-        channel.send(`1: ${newMember} got the role\n2: ${newMember.guild.members.cache.get(newMember.guild.me.id)} added the role to ${newMember}\n3: ${role}`);
-      }
-    });
+    const addedBy = newMember.guild.members.cache.get(newMember.guild.me.id);
+    const givenTo = newMember;
+    const roleName = role.name;
+
+    console.log(`1: ${givenTo} was given the role`);
+    console.log(`2: ${addedBy} added the role to ${givenTo}`);
+    console.log(`3: ${roleName}`);
   });
 });
 
-// Log in to Discord with the bot's token
 client.login(process.env.TOKEN);
