@@ -1,5 +1,11 @@
-const Discord = require('discord.js'); // Import Discord.js module
-const keep_alive = require('./keep_alive.js'); // Keep the bot alive (if 
+const Discord = require('discord.js');
+const keep_alive = require('./keep_alive.js');
+
+const client = new Discord.Client();
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
 
 client.on('guildMemberUpdate', (oldMember, newMember) => {
   const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
