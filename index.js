@@ -26,7 +26,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 });
 
 client.on('message', message => {
-  if (message.content === '/louri') {
+  if (message.content === '/louri' && message.member.hasPermission('ADMINISTRATOR')) { // Check if the user has administrator permission
     const options = new Discord.MessageActionRow()
       .addComponents(
         new Discord.MessageSelectMenu()
