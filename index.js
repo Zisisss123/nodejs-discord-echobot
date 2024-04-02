@@ -17,39 +17,34 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     if (randomChannel) {
       const options = new Discord.MessageActionRow()
         .addComponents(
-          new Discord.MessageSelectMenu()
-            .setCustomId('louri_select')
-            .setPlaceholder('Choose an option...')
-            .addOptions([
-              {
-                label: 'ndndsj',
-                value: 'option1'
-              },
-              {
-                label: 'jdudjd',
-                value: 'option2'
-              }
-            ])
+          new Discord.MessageButton()
+            .setCustomId('option1')
+            .setLabel('Hdhshd')
+            .setStyle('PRIMARY'),
+          new Discord.MessageButton()
+            .setCustomId('option2')
+            .setLabel('ahdbuaon')
+            .setStyle('PRIMARY')
         );
 
-      randomChannel.send({ content: 'I am the one', components: [options] });
+      const embed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Choose an option')
+        .setDescription('Please select one of the options below:')
+        .setFooter('Powered by ChatGPT');
+
+      randomChannel.send({ content: 'I am the one', embeds: [embed], components: [options] });
     }
   }
 });
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isSelectMenu()) return;
+  if (!interaction.isButton()) return;
 
-  if (interaction.customId === 'louri_select') {
-    const user = interaction.user;
-
-    if (interaction.values[0] === 'option1') {
-      // Add logic for option 1
-      await interaction.reply({ content: 'You chose option 1.', ephemeral: true });
-    } else if (interaction.values[0] === 'option2') {
-      // Add logic for option 2
-      await interaction.reply({ content: 'You chose option 2.', ephemeral: true });
-    }
+  if (interaction.customId === 'option1') {
+    await interaction.reply({ content: 'You chose option 1.', ephemeral: true });
+  } else if (interaction.customId === 'option2') {
+    await interaction.reply({ content: 'You chose option 2.', ephemeral: true });
   }
 });
 
