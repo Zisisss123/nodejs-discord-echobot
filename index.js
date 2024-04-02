@@ -21,8 +21,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
         .setDescription('cc');
       
       randomChannel.send(embed);
-      import discord
-        });
+});
     
 bot = commands.Bot(command_prefix='/')
 
