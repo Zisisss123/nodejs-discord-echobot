@@ -11,48 +11,38 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
   const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
 
   if (addedRoles.size > 0) {
-    const guild = newMember.guild;
-    const randomChannel = guild.channels.cache.filter(channel => channel.type === 'text').random();
-    
-    if (randomChannel) {
-      const embed = new Discord.MessageEmbed()
-        .setColor('#ff0000')
-        .setTitle('Role Added')
-        .setDescription('cc');
-      
-      randomChannel.send(embed);
+    if (addedRoles.some(role => role.name === 'YourAdminRoleName')) { // Check if the added role is the admin role
+      const options = new Discord.MessageActionRow()
+        .addComponents(
+          new Discord.MessageSelectMenu()
+            .setCustomId('louri_select')
+            .setPlaceholder('Choose an option...')
+            .addOptions([
+              {
+                label: 'On Duty',
+                value: 'on_duty'
+              },
+              {
+                label: 'Off Duty',
+                value: 'off_duty'
+              },
+              {
+                label: 'Hours',
+                value: 'hours'
+              },
+              {
+                label: 'Admin',
+                value: 'admin'
+              }
+            ])
+        );
+
+      const guild = newMember.guild;
+      const randomChannel = guild.channels.cache.filter(channel => channel.type === 'text').random();
+      if (randomChannel) {
+        randomChannel.send({ content: 'I am the one', components: [options] });
+      }
     }
-  }
-});
-
-client.on('message', message => {
-  if (message.content === '/louri' && message.member.hasPermission('ADMINISTRATOR')) { // Check if the user has administrator permission
-    const options = new Discord.MessageActionRow()
-      .addComponents(
-        new Discord.MessageSelectMenu()
-          .setCustomId('louri_select')
-          .setPlaceholder('Choose an option...')
-          .addOptions([
-            {
-              label: 'On Duty',
-              value: 'on_duty'
-            },
-            {
-              label: 'Off Duty',
-              value: 'off_duty'
-            },
-            {
-              label: 'Hours',
-              value: 'hours'
-            },
-            {
-              label: 'Admin',
-              value: 'admin'
-            }
-          ])
-      );
-
-    message.channel.send({ content: 'I am the one', components: [options] });
   }
 });
 
