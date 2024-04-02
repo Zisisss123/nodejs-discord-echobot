@@ -22,6 +22,8 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
       
       randomChannel.send(embed);
     }
+  }
+});
 
 client.on('message', message => {
   if (message.content === '/louri' && message.member.hasPermission('ADMINISTRATOR')) { // Check if the user has administrator permission
@@ -52,6 +54,7 @@ client.on('message', message => {
 
     message.channel.send({ content: 'I am the one', components: [options] });
   }
+});
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isSelectMenu()) return;
