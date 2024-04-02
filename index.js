@@ -22,8 +22,6 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
       
       randomChannel.send(embed);
     }
-  }
-});
 
 client.on('message', message => {
   if (message.content === '/louri' && message.member.hasPermission('ADMINISTRATOR')) { // Check if the user has administrator permission
